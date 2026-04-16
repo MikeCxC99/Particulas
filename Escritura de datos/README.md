@@ -84,13 +84,13 @@ Cada iteración del bucle principal (~8 segundos):
 Cada línea escrita en `datalog.txt` tiene el siguiente formato:
 
 ```
-YYYY-MM-DD,HH:MM:SS, Unidad: C°,S1: XX.XXS2: XX.XX ... S20: XX.XX.
+YYYY-MM-DD,HH:MM:SS, Unidad: C°,S1: XX.XX, S2: XX.XX, ..., S20: XX.XX.
 ```
 
 **Ejemplo:**
 
 ```
-2025-08-07,19:14:30, Unidad: C°,S1: 20.38S2: 20.00 S3: 20.25 ... S20: 20.00.
+2025-08-07,19:14:30, Unidad: C°,S1: 20.38, S2: 20.00, S3: 20.25, ..., S20: 20.00.
 ```
 
 > **Nota:** Los valores de temperatura se reportan en grados Celsius con dos decimales.
