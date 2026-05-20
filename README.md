@@ -1,91 +1,74 @@
 # 🔬 Particulas — Instrumentación y Adquisición de Datos
 
-[![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=flat&logo=python)](https://www.python.org/)
-[![Arduino](https://img.shields.io/badge/Arduino-Industrino-00979D?style=flat&logo=arduino)](https://www.arduino.cc/)
-[![License](https://img.shields.io/badge/Licencia-MIT-yellow?style=flat)](LICENSE)
+Repositorio de herramientas de instrumentación física para laboratorio. Incluye dos subsistemas:
 
-Repositorio de herramientas de **instrumentación física** desarrolladas para proyectos de adquisición, análisis y visualización de datos en laboratorio. Actualmente contiene dos subsistemas independientes:
-
-| Subsistema | Descripción breve | Estado |
-|---|---|---|
-| [Virtual Network Analyzer](./Virtual%20Network%20Analyzer/) | Medición de cables coaxiales con NanoVNA V2 | 🚧 WIP |
-| [Monitoreo de Temperatura](./monitoreo%20de%20temperatura/) | Red de 20 sensores DS18B20 con registro en SD | ✅ Estable |
+- **Virtual Network Analyzer (CableMaster Pro v12)**: caracterización de cables coaxiales con NanoVNA V2 Plus4.
+- **Monitoreo de Temperatura**: adquisición con 20 sensores DS18B20 y postproceso en notebooks.
 
 ---
 
-## 📁 Estructura del Repositorio
+## 📁 Estructura
 
-```
+```text
 Particulas/
-│
-├── Virtual Network Analyzer/
-│   ├── VNADefv5.py          # Script principal de medición (CableMaster Pro v5)
-│   └── README.md            # Documentación completa del VNA
-│
+├── VirtualNetworkAnalyzer/
+│   ├── VNADefv12.py
+│   └── README.md
 ├── monitoreo de temperatura/
 │   ├── Escritura de datos/
-│   │   └── Sketch_Industrino_F.ino   # Firmware Arduino (adquisición)
+│   │   ├── Sketch_Industrino_F.ino
+│   │   └── README.md
 │   ├── Interpretacion TXT/
-│   │   ├── txtConverter.ipynb        # Notebook: conversión TXT → CSV
-│   │   ├── csvGrapher.ipynb          # Notebook: filtrado y heatmap
-│   │   └── *.TXT / *.csv            # Datos de ejemplo
-│   └── README.md            # Documentación completa del sistema de temperatura
-│
-└── README.md                # Este archivo
+│   │   ├── txtConverter.ipynb
+│   │   ├── csvGrapher.ipynb
+│   │   └── README.md
+│   └── README.md
+└── README.md
 ```
 
 ---
 
-## ⚡ Virtual Network Analyzer
+## 📡 Virtual Network Analyzer (v12)
 
-**Script:** `Virtual Network Analyzer/VNADefv5.py`
+- **Script principal**: `VirtualNetworkAnalyzer/VNADefv12.py`
+- **Documentación técnica completa**: `VirtualNetworkAnalyzer/README.md`
 
-Herramienta de línea de comandos para **caracterizar cables coaxiales** usando un NanoVNA V2 Plus4. Mide parámetros S (S11 / S21), calcula Return Loss, VSWR, impedancia, Insertion Loss, TDR y retardo de grupo; clasifica cada cable como PASS / WARN / FAIL y exporta resultados en CSV y PNG.
+La versión actual automatiza calibración SOLT, medición S11/S21, cálculo de métricas RF (RL, VSWR, impedancia, IL, TDR, group delay), detección de anomalías y exportación de resultados en CSV (y PNG opcional).
 
-> ⚠️ **WIP** — Algunas frecuencias pueden arrojar datos inconsistentes. Ver la sección de problemas conocidos en la [documentación del VNA](./Virtual%20Network%20Analyzer/README.md).
-
-**Requisitos principales:** Python 3.x · `pyserial` · `numpy` · `scipy` · `matplotlib`
+> ℹ️ Si venías usando la documentación de **v5**, fue eliminada del directorio antiguo `Virtual Network Analyzer/`. Se documentó la migración y diferencias en el README de `VirtualNetworkAnalyzer/`.
 
 ---
 
 ## 🌡️ Monitoreo de Temperatura
 
-**Firmware:** `monitoreo de temperatura/Escritura de datos/Sketch_Industrino_F.ino`  
-**Análisis:** Notebooks Jupyter en `monitoreo de temperatura/Interpretacion TXT/`
+- **Firmware**: `monitoreo de temperatura/Escritura de datos/Sketch_Industrino_F.ino`
+- **Procesamiento**: notebooks en `monitoreo de temperatura/Interpretacion TXT/`
+- **Documentación**: `monitoreo de temperatura/README.md`
 
-Sistema de adquisición con **20 sensores DS18B20**, RTC DS3231 y almacenamiento en tarjeta SD montado sobre una placa Industrino (compatible Arduino Mega). Los datos se procesan con notebooks Python que convierten los logs a CSV y generan mapas de calor.
-
-**Requisitos principales:** IDE Arduino · OneWire · DallasTemperature · RTClib · Python 3 · pandas · seaborn · matplotlib
+Sistema basado en 20 sensores DS18B20, RTC DS3231 y registro en SD para análisis posterior en Python.
 
 ---
 
-## 🛠️ Inicio Rápido
+## 🛠️ Inicio rápido
 
 ### Virtual Network Analyzer
 
 ```bash
-# Instalar dependencias
 pip install pyserial numpy scipy matplotlib
-
-# Editar el bloque CONFIG al inicio de VNADefv5.py (puerto, rango de frecuencias, modo)
-# Ejecutar
-python "Virtual Network Analyzer/VNADefv5.py"
+python /home/runner/work/Particulas/Particulas/VirtualNetworkAnalyzer/VNADefv12.py
 ```
+
+Antes de ejecutar, ajustar el bloque de configuración al inicio del script (`PORT`, rango de frecuencia, modo de sweep, VF, etc.).
 
 ### Monitoreo de Temperatura
 
 ```bash
-# Instalar dependencias Python
 pip install pandas seaborn matplotlib jupyterlab
-
-# Abrir los notebooks
-jupyter lab "monitoreo de temperatura/Interpretacion TXT/"
+jupyter lab "/home/runner/work/Particulas/Particulas/monitoreo de temperatura/Interpretacion TXT/"
 ```
-
-Para el firmware Arduino, ver instrucciones en el [README de temperatura](./monitoreo%20de%20temperatura/README.md).
 
 ---
 
 ## 📄 Licencia
 
-MIT — libre para uso, modificación y distribución con atribución.
+MIT.
